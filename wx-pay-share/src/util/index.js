@@ -4,7 +4,7 @@ export default{
 		let r = window.location.search.substr(1).match(reg)
 		if(r != null) return decodeURIComponent(r[2])
 	},
-	initShareInfo(){
+	initShareInfo(wx){
 		let shareInfo = {
 			title: '支付专享', // 分享标题
 			desc: '没有爱请离开', // 分享描述
@@ -14,10 +14,10 @@ export default{
 
 		wx.onMenuShareTimeline(shareInfo)
 		wx.onMenuShareAppMessage(shareInfo)
-		wx.onMenuShareQQ(shareInfo)
-		wx.onMenuShareQZone(shareInfo)
+		// wx.onMenuShareQQ(shareInfo)
+		// wx.onMenuShareQZone(shareInfo)
 
-		wx.updateAppMessageShareData(shareInfo)
-		wx.updateTimelineShareData(shareInfo)
+		// wx.updateAppMessageShareData(shareInfo)
+		// wx.updateTimelineShareData(shareInfo)
 	}
 }

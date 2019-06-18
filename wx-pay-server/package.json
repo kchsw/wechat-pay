@@ -7,11 +7,14 @@
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
+    "create-hash": "^1.2.0",
     "debug": "~2.6.9",
     "express": "~4.16.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "memory-cache": "^0.2.0",
+    "mongodb": "^3.2.7",
+    "mongoose": "^5.5.1",
     "morgan": "~1.9.1",
     "request": "^2.88.0"
   },

@@ -25,5 +25,26 @@ module.exports = {
 			data: '' ,
 			message
 		}
+	},
+	//生成随机数
+	createNonceStr(){
+		return Math.random().toString(36).substr(2, 15)
+	},
+	//生成时间戳
+	createTimeStamp(){
+		return parseInt(new Date().getTime() / 1000) + ''
+	},
+	//Object 转换成json并排序
+	raw(args){
+		let keys = Object.keys(args).sort()
+		let obj = {}
+		keys.forEach(key => {
+			obj[key] = args[key]
+		})
+		let val = ''
+		for(let k in obj){
+			val += '&' + k + '=' + obj[k]
+		}
+		return val.substr(1)
 	}
 }

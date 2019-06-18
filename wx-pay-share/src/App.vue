@@ -32,8 +32,9 @@
 			},
 
 			getWechatConfig(){
-				this.$http.get(API.wechatConfig + '?url=' + location.host).then(response => {
+				this.$http.get(API.wechatConfig + '?url=' + location.href.split('#')[0]).then(response => {
 					let res = response.data
+					console.log(res)
 					if(res.code == 0){
 						const { appId, timestamp, nonceStr, signature, jsApiList } = res.data
 						wx.config({
@@ -45,7 +46,7 @@
 						    jsApiList // 必填，需要使用的JS接口列表
 						})
 						wx.ready(() => {
-							util.initShareInfo()
+							util.initShareInfo(wx)
 						})
 					}
 				})

@@ -22,7 +22,7 @@
 		},
 		mounted(){
 			if(this.$cookie.get('openId')){
-				this.getUserInfo()
+				// this.getUserInfo()
 			}
 		},
 		methods: {
