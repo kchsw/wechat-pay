@@ -1,13 +1,12 @@
 <!--index.wxml-->
 <view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
-  </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
+  <image class="header" src="../../assets/image/header.png" mode="widthFix"></image>
+  <view class="btn-group">
+  		<button wx:if="{{!userId}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo" type="primary" style="width: 60%">
+  			微信登陆
+  		</button>
+      	<button wx:if="{{userId}}" class="btn" open-type="share">分享</button>
+      	<button wx:if="{{userId}}" class="btn btn-primary" bind:tap="goToRecharge">充值</button>
+      	<button wx:if="{{userId}}" class="btn" bind:tap="goToActivity">活动详情</button>
   </view>
 </view>

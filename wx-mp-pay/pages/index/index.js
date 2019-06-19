@@ -1,54 +1,60 @@
 //index.js
 //获取应用实例
 const app = getApp()
-
+let store = require('../../utils/store.js')
+let Api = app.Api
+let router = app.router
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
-  },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
+    userId: store.getItem('userId')
   },
   onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
+    if(!this.data.userId){
+      this.getSession()
     }
   },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
-    this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+  getSession(){
+    wx.login({
+      success: (res) => {
+        if(res.code){
+          console.log(res.code)
+          app.get(Api.getSession, {
+            code: res.code
+          }).then(res => {
+            console.log(res)
+            store.setItem('openId', res.openid)
+          }).catch(res => {
+            console.log('error:' + res.message)
+          })
+        }
+      },
+      fail: (res) => {   
+      }
     })
+  },
+  getUserInfo(e){
+    let userInfo = e.detail.userInfo
+    userInfo.openid = store.getItem('openId')
+    app.get(Api.login, {
+      userInfo
+    }).then(res => {
+      store.setItem('userId', res.userId)
+      this.setData({
+        userId: res.userId
+      })
+    })
+  },
+  goToActivity(){
+    router.push('activity')
+  },
+  goToRecharge(){
+    router.push('pay')
+  },
+  onShareAppMessage: function () {
+    return {
+      title: '欢迎体验',
+      path: '/pages/index/index',
+      imageUrl: '/assets/image/share_mp_logo.png'
+    }
   }
 })
