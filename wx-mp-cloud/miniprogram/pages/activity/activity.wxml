@@ -1,6 +1,6 @@
 <!--pages/activity/activity.wxml-->
 <view class="activity">
-    <image src='/assets/images/header.png'/>
+    <image src='../../assets/image/header.png'/>
     <view class="content">
       <view class="item-info">
         <view class='item-title'>活动说明</view>

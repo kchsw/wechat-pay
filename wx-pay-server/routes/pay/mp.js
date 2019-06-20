@@ -7,6 +7,7 @@ const util = require("../../util/index")
 const router = express.Router()
 const mpconfig = Object.assign({}, config.mp)
 const dao = require('../common/db')
+const wxpay = require('../common/wxpay.js')
 
 //获取session接口
 router.get('/getSession', (req, res) => {
@@ -50,6 +51,26 @@ router.get('/login', async (req, res) => {
 			res.json(userRes)
 		}
 	}
+})
+//小程序支付
+router.get('/pay/paywallet', (req, res) => {
+	let openId = req.query.openId //用户的openid
+	let attach = '小程序支付' //附加数据
+	let body = '小程序支付' //支付主题内容
+	let total_fee = req.query.money //支付总金额
+	let notify_url = "http://localhost:3000/api/mp/pay/callback"
+	let ip = '123.57.2.144'
+	wxpay.order(attach, body, total_fee, notify_url, ip).then(result => {
+		res.json(util.handleSuc(result))
+	}).catch(result => {
+		res.json(util.handleFail(result))
+	})
+})
+
+//
+
+router.get('/pay/callback', (req, res) => {
+
 })
 
 
