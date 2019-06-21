@@ -20,6 +20,7 @@ Page({
         console.log(res)
         console.log('[云函数] [getOpenId] user openid: ', res.result.openid)
         app.globalData.openid = res.result.openid
+        store.setItem('openId', res.result.openid)
       },
       fail: err => {
         console.error('[云函数] [getOpenId] 调用失败', err)

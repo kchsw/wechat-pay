@@ -1,11 +1,67 @@
 // pages/pay/pay.js
+const app = getApp()
+let store = require('../../utils/store.js')
+let Api = app.Api
+let router = app.router
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    index: 1,
+    amount: 0
+  },
+  getMoney(e){
+    let amount = e.detail.value * 100
+    this.setData({
+      amount,
+      index: amount 
+    })
+  },
+  choose(e){
+    let amount = e.currentTarget.dataset.amount
+    this.setData({
+      amount,
+      index: amount
+    })
+  },
+  pay(){
+    let amount = this.data.amount
+    if(!amount && !/^\d*$/.test(amount)){
+      wx.showToast({
+        title: '请输入正确的金额格式',
+        icon: 'none'
+      })
+      return
+    }else if(amount <= 0){
+      wx.showToast({
+        title: '输入的金额必须大于0',
+        icon: 'none'
+      })
+      return
+    }
+    app.get(Api.payWallet,{
+      money: amount,
+      openId: store.getItem('openId')
+    }).then(res => {
+       wx.requestPayment({
+        timeStamp: res.timeStamp,
+        nonceStr: res.nonceStr,
+        package: res.package,
+        signType: 'MD5',
+        paySign: res.paySign,
+        success(res){
+          if(res.errMsg == 'requestPayment:ok'){
+            wx.showToast({
+              title: '支付成功'
+            })
+          }
+        },
+        fail(res){ 
+        }
+      })
+    })
   },
 
   /**

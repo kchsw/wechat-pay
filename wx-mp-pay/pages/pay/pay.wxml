@@ -3,7 +3,7 @@
   <view class="recharge-box">
     <view class='title'>充值金额</view>
     <view class="input-box">
-      <input class="input" type="number" placeholder="请输入充值金额" bindinput="getMoney" />
+      <input class="input" type="number" placeholder="请输入充值金额，单位元" bindinput="getMoney"/>
     </view>
     <view class="item-num">
       <view class="{{index==1?'num checked':'num'}}" data-amount="1" bindtap="choose">1分</view>

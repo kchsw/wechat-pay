@@ -14,11 +14,12 @@
 	background-color: #fff;
 	color: #ff3418;
 	outline: none;
-    border: none;
-    border-radius: 50rpx;
-    padding: 0;
-    box-shadow: 10rpx 10rpx 18rpx 0rpx rgba(255, 106, 106, .57);
-    margin-bottom: 50rpx;
+  border: none;
+  border-radius: 50rpx;
+  padding: 0;
+  box-shadow: 10rpx 10rpx 18rpx 0rpx rgba(255, 106, 106, .57);
+  margin-bottom: 50rpx;
+  text-align: center;
 }
 .btn-primary{
 	background-color: #ff3418;

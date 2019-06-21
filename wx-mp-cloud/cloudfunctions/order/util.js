@@ -49,14 +49,14 @@ module.exports = {
 		return val.substr(1)
 	},
 	//生成订单号
-	getTradeId(type="wx"){
+	getTradeId(){
 		let date = new Date().getTime().toString()
 		let text = ''
 		let possible = '0123456789'
 		for(let i = 0; i < 5; i ++){
 			text += possible.charAt(Math.floor(Math.random() * possible.length))
 		}
-		return (type == 'wx' ? 'ImoocWxHSW' : 'ImoocMpHSW') + date + text
+		return 'ImoocMpCloud' + date + text
 	},
 	getSign(params, key){
 		let string = this.raw(params) + '&key=' + key 

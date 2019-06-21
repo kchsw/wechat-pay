@@ -16,7 +16,8 @@
     "mongodb": "^3.2.7",
     "mongoose": "^5.5.1",
     "morgan": "~1.9.1",
-    "request": "^2.88.0"
+    "request": "^2.88.0",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
