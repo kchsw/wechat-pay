@@ -7,6 +7,9 @@ const util = require("../../util/index")
 const createHash = require('create-hash')
 const dao = require('../common/db')
 const router = express.Router()
+const wxpay = require('../common/wxpay.js')
+const xml = require('xml2js')
+
 
 router.get('/test', (req, res) => {
 	res.json({
@@ -58,7 +61,9 @@ router.get('/getOpenId', async (req, res) => {
 			res.cookie('openId', data.openid, { maxAge: expire_time })
 			let userRes = await dao.query({ "openid": data.openid }, 'user')
 			if(userRes.code == 0){
+				console.log(userRes.data)
 				if(userRes.data.length > 0){
+
 				}else{
 					let userData = await common.getUserInfo(data.access_token, data.openid)
 					let insertData = await dao.insert(userData.data, 'user')
@@ -114,8 +119,34 @@ router.get('/jssdk', async (req, res) => {
 					'chooseWXPay'
 				]
 			}))
+		}else{
+			res.json(result2)
 		}
+	}else{
+		res.json(result)
 	}
+})
+
+router.get('/pay/payWallet', (req, res) => {
+	let openid = req.cookies.openId //用户的openid
+	let attach = '小程序支付' //附加数据
+	let body = '小程序支付' //支付主题内容
+	let total_fee = req.query.money //支付总金额
+	let notify_url = "http://localhost:3000/api/mp/pay/callback"
+	let ip = '123.57.2.144'
+	let appid = config.wx.appId //应用id
+	wxpay.order(appid, attach, body, openid, total_fee, notify_url, ip).then(result => {
+		res.json(util.handleSuc(result))
+	}).catch(result => {
+		res.json(util.handleFail(result))
+	})
+})
+
+//接受微信支付成功后的回调的接口
+router.post('/pay/callback', (req, res) => {
+	xml.parseString(req.rawBody.toString('utf-8'), (error, res) => {
+		
+	})
 })
 
 

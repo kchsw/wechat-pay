@@ -3,8 +3,10 @@
 		<img src="@/assets/img/header.png" class="header" alt="">
 		<div class="btn-group">
 			<button class="btn">分享</button>
-			<button class="btn btn-primary">充值</button>
-			<button class="btn">活动详情</button>
+			<!-- <button class="btn btn-primary">充值</button> -->
+			<!-- <button class="btn">活动详情</button> -->
+			<router-link tag="button" class="btn btn-primary" to="/pay">充值</router-link>
+			<router-link tag="button" class="btn" to="/activity">活动详情</router-link>
 		</div>
 	</div>
 </template>
@@ -22,7 +24,7 @@
 		},
 		mounted(){
 			if(this.$cookie.get('openId')){
-				// this.getUserInfo()
+				// this.getUserInfo() //scope=snsapi_base 拉取不到用户信息
 			}
 		},
 		methods: {
