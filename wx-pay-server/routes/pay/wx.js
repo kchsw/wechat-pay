@@ -143,9 +143,33 @@ router.get('/pay/payWallet', (req, res) => {
 })
 
 //接受微信支付成功后的回调的接口
-router.post('/pay/callback', (req, res) => {
+router.post('/pay/callback', async (req, res) => {
 	xml.parseString(req.rawBody.toString('utf-8'), (error, res) => {
-		
+		if(error){
+			res.send('fail')
+			return
+		}
+		let data = res.xml
+		let order = {
+			openId: data.openid[0],
+			totalFee: data.total_fee[0],
+			isSubscribe: data.is_subscribe[0],
+			orderId: data.out_trade_no[0],
+			transactionId: data.transaction_id[0],
+			tradeType: data.trade_type[0],
+			timeEnd: data.time_end[0]
+		}
+		//保存订单信息到数据库
+		let result = await dao.insert(order, 'orders')
+		if(result.code == 0){
+			let data = 	`<xml>
+						  <return_code><![CDATA[SUCCESS]]></return_code>
+						  <return_msg><![CDATA[OK]]></return_msg>
+						</xml>`
+			res.send(data)
+		}else{
+			res.send('fail')
+		}
 	})
 })
 
